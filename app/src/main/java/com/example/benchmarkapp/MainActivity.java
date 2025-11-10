@@ -111,13 +111,13 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < runs; i++) {
             totalTime += runCpuBenchmark();
         }
-        return totalTime / 5;
+        return totalTime / runs;
     }
 
     private long runRamBenchmark() {
         long startTime = System.currentTimeMillis();
 
-        int size = 10_000_000;
+        int size = 10000000;
         int[] array = new int[size];
         for (int i = 0; i < size; i++) {
             array[i] = i;
