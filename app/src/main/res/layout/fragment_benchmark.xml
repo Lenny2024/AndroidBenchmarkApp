@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="#FFFFFF">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:id="@+id/deviceModel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Device Model"
+            android:textSize="18sp"
+            android:padding="8dp"/>
+
+        <TextView
+            android:id="@+id/androidVersion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Android Version"
+            android:textSize="18sp"
+            android:padding="8dp"/>
+
+        <TextView
+            android:id="@+id/cpuInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CPU Info"
+            android:textSize="18sp"
+            android:padding="8dp"/>
+
+        <TextView
+            android:id="@+id/ramInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="RAM"
+            android:textSize="18sp"
+            android:padding="8dp"/>
+
+        <TextView
+            android:id="@+id/storageInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Storage"
+            android:textSize="18sp"
+            android:padding="8dp"/>
+
+        <Button
+            android:id="@+id/runBenchmark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Start Test"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"/>
+
+        <TextView
+            android:id="@+id/cpuResult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CPU Benchmark Result: "
+            android:textSize="16sp"
+            android:padding="8dp"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/ramResult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="RAM Benchmark Result: "
+            android:textSize="16sp"
+            android:padding="8dp"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/storageResult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Storage Benchmark Result: "
+            android:textSize="16sp"
+            android:padding="8dp"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/gpuResult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="GPU Benchmark Result: "
+            android:textSize="16sp"
+            android:padding="8dp"
+            android:visibility="gone"/>
+
+    </LinearLayout>
+</ScrollView>
