@@ -85,6 +85,15 @@
             android:padding="8dp"
             android:visibility="gone"/>
 
+        <TextView
+            android:id="@+id/gpuResult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="GPU Benchmark Result: "
+            android:textSize="16sp"
+            android:padding="8dp"
+            android:visibility="gone"/>
+
 
 
     </LinearLayout>

@@ -26,11 +26,60 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.sql.SQLOutput;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Color;
+
 
 public class MainActivity extends AppCompatActivity {
 
     TextView deviceModel, androidVersion, cpuInfo, ramInfo, storageInfo, cpuResult, ramResult, storageResult;
     Button runBenchmark;
+
+    private class GpuBenchmark {
+        private long startTime;
+        private int frames;
+        private Paint paint;
+        private Bitmap bitmap;
+        private Canvas canvas;
+
+        public GpuBenchmark() {
+            bitmap = Bitmap.createBitmap(1080, 1920, Bitmap.Config.ARGB_8888);
+            canvas = new Canvas(bitmap);
+
+            paint = new Paint();
+            paint.setColor(Color.RED);
+            paint.setStyle(Paint.Style.FILL);
+        }
+
+        private void drawNextFrame() {
+            long elapsed = System.currentTimeMillis() - startTime;
+
+            if (elapsed >= 500) {
+                showGpuResult(frames);
+                return;
+            }
+
+            for (int i = 0; i < 200; i++) {
+                float x = (float) Math.random() * 1080;
+                float y = (float) Math.random() * 1920;
+                float size = (float) (20 + Math.random() * 80);
+
+                canvas.drawCircle(x, y, size, paint);
+            }
+
+            frames++;
+
+            findViewById(R.id.main).postDelayed(this::drawNextFrame, 0);
+        }
+        public void start() {
+            frames = 0;
+            startTime = System.currentTimeMillis();
+            drawNextFrame();
+        }
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +115,8 @@ public class MainActivity extends AppCompatActivity {
             long storageTime = runStorageBenchmarkAverage(5);
             storageResult.setText("Storage Benchmark Result: " + storageTime + " ms");
             storageResult.setVisibility(View.VISIBLE);
+
+            new GpuBenchmark().start();
         });
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -181,5 +232,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return totalTime / runs;
+    }
+
+    private void showGpuResult(int frames) {
+        TextView tv = findViewById(R.id.gpuResult);
+        tv.setText("GPU Benchmark: " + frames + " drawn frames");
+        tv.setVisibility(View.VISIBLE);
     }
 }
