@@ -31,18 +31,15 @@ public class BenchmarkFragment extends Fragment {
     TextView cpuResult, ramResult, storageResult, gpuResult;
     Button runBenchmark;
 
-    public BenchmarkFragment() {
-        // Required empty public constructor
-    }
+    public BenchmarkFragment() {}
 
-    // --- GPU Benchmark Inner Class ---
     private class GpuBenchmark {
         private long startTime;
         private int frames;
         private Paint paint;
         private Bitmap bitmap;
         private Canvas canvas;
-        private final View viewRef; // Reference to the view for posting updates
+        private final View viewRef;
 
         public GpuBenchmark(View view) {
             this.viewRef = view;
@@ -72,7 +69,6 @@ public class BenchmarkFragment extends Fragment {
 
             frames++;
 
-            // Use the view reference to post the next frame
             if (viewRef != null) {
                 viewRef.postDelayed(this::drawNextFrame, 0);
             }
@@ -84,11 +80,9 @@ public class BenchmarkFragment extends Fragment {
             drawNextFrame();
         }
     }
-    // ---------------------------------
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_benchmark, container, false);
     }
 
@@ -96,7 +90,6 @@ public class BenchmarkFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Bind UI elements
         deviceModel = view.findViewById(R.id.deviceModel);
         androidVersion = view.findViewById(R.id.androidVersion);
         cpuInfo = view.findViewById(R.id.cpuInfo);
@@ -106,16 +99,14 @@ public class BenchmarkFragment extends Fragment {
         cpuResult = view.findViewById(R.id.cpuResult);
         ramResult = view.findViewById(R.id.ramResult);
         storageResult = view.findViewById(R.id.storageResult);
-        gpuResult = view.findViewById(R.id.gpuResult); // Bind the new GPU TextView
+        gpuResult = view.findViewById(R.id.gpuResult);
 
-        // Set Info Text
         deviceModel.setText("Device model: " + Build.MANUFACTURER + " " + Build.MODEL);
         androidVersion.setText("Android Version: " + Build.VERSION.RELEASE);
         cpuInfo.setText("CPU: " + Build.HARDWARE + " (" + Runtime.getRuntime().availableProcessors() + " cores)");
         ramInfo.setText("RAM: " + getTotalRAM() + " MB");
         storageInfo.setText("Storage: " + getTotalStorage() + " GB");
 
-        // Set Button Listener
         runBenchmark.setOnClickListener(v -> {
             long cpuTime = runCpuBenchmarkAverage(5);
             cpuResult.setText("CPU Benchmark Result: " + cpuTime + " ms");
@@ -129,13 +120,11 @@ public class BenchmarkFragment extends Fragment {
             storageResult.setText("Storage Benchmark Result: " + storageTime + " ms");
             storageResult.setVisibility(View.VISIBLE);
 
-            // Start GPU Benchmark using the current view for handlers
             new GpuBenchmark(view).start();
         });
     }
 
     private void showGpuResult(int frames) {
-        // Ensure we are updating the UI on the main thread (safeguard)
         if (getActivity() != null) {
             getActivity().runOnUiThread(() -> {
                 gpuResult.setText("GPU Benchmark: " + frames + " drawn frames");
@@ -144,19 +133,17 @@ public class BenchmarkFragment extends Fragment {
         }
     }
 
-    // --- Helper Methods ---
-
     private long getTotalRAM() {
         ActivityManager.MemoryInfo mi = new ActivityManager.MemoryInfo();
         ActivityManager activityManager = (ActivityManager) requireContext().getSystemService(Context.ACTIVITY_SERVICE);
         activityManager.getMemoryInfo(mi);
-        return mi.totalMem / (1024 * 1024); // MB
+        return mi.totalMem / (1024 * 1024);
     }
 
     private long getTotalStorage() {
         StatFs stat = new StatFs(Environment.getDataDirectory().getPath());
         long bytesAvailable = stat.getBlockSizeLong() * stat.getBlockCountLong();
-        return bytesAvailable / (1024 * 1024 * 1024); // GB
+        return bytesAvailable / (1024 * 1024 * 1024);
     }
 
     private long runCpuBenchmark() {
@@ -171,7 +158,7 @@ public class BenchmarkFragment extends Fragment {
 
     private long runCpuBenchmarkAverage(int runs) {
         long totalTime = 0;
-        runCpuBenchmark(); // Warm-up
+        runCpuBenchmark();
         for (int i = 0; i < runs; i++) {
             totalTime += runCpuBenchmark();
         }
@@ -191,7 +178,7 @@ public class BenchmarkFragment extends Fragment {
 
     private long runRamBenchmarkAverage(int runs) {
         long totalTime = 0;
-        runRamBenchmark(); // Warm-up
+        runRamBenchmark();
         for (int i = 0; i < runs; i++) {
             totalTime += runRamBenchmark();
         }
@@ -229,7 +216,7 @@ public class BenchmarkFragment extends Fragment {
 
     private long runStorageBenchmarkAverage(int runs) {
         long totalTime = 0;
-        runStorageBenchmark(); // Warm-up
+        runStorageBenchmark();
         for (int i = 0; i < runs; i++) {
             totalTime += runStorageBenchmark();
         }
